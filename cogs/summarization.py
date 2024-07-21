@@ -28,7 +28,7 @@ def get_text(url):
         return "Failed to retrieve content"
 
 
-def get_summary(link, language="english", sentences_count=5):
+def get_summary(link, sentences_count, language="english"):
     text = get_text(link)
     parser = PlaintextParser.from_string(text, Tokenizer(language))
     summarizer = LsaSummarizer()
@@ -43,7 +43,10 @@ def get_summary(link, language="english", sentences_count=5):
 @app_commands.command()
 async def summarize(interaction: discord.Interaction, link: str):
     await interaction.response.defer(ephemeral=False, thinking=False)
-    await interaction.followup.send(embed=get_summary(link).set_author(name=interaction.user.display_name, icon_url=interaction.user.avatar))
+    await interaction.followup.send(embed=get_summary(link, 3).set_author(
+        name=interaction.user.display_name,
+        icon_url=interaction.user.avatar
+    ))
 
 
 async def setup(app):
