@@ -2,6 +2,8 @@ import os
 
 import discord
 from cogs import bot
+from cogs import news
+from cogs import summarization
 from discord import app_commands
 from dotenv import load_dotenv
 
@@ -27,6 +29,8 @@ class MyApplication(discord.Client):
     async def setup_hook(self) -> None:
         """Event that fires pretty much before all other events."""
         await bot.setup(self)
+        await news.setup(self)
+        await summarization.setup(self)
 
         self.tree.copy_global_to(guild=GUILD)
         await self.tree.sync(guild=GUILD)
