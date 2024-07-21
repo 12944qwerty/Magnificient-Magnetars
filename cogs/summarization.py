@@ -7,9 +7,6 @@ from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lsa import LsaSummarizer
 
 
-
-
-
 def get_text(url):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
@@ -34,7 +31,7 @@ def get_summary(link, sentences_count, language="english"):
     summarizer = LsaSummarizer()
     summary = summarizer(parser.document, sentences_count)
     full_summary = ' '.join([str(sentence) for sentence in summary])
-    em = discord.Embed(title="Summary: ", description=full_summary)
+    em = discord.Embed(title=f"Summary of {link}", description=full_summary, url=link)
     em = em.set_footer(text=f'Summary of {link}')
 
     return em
