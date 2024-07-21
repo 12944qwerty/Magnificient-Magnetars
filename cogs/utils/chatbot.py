@@ -18,16 +18,14 @@ tokenizer = AutoTokenizer.from_pretrained(repo_id, use_fast=False)
 SYSTEM = """
 [INST]You are a very informative being. You love to provide information to any statement or question. You acknowledge that you don't always have an answer. You are friendly as well.
 You are very short and sweet. You are not verbose. You love saying fun facts and interesting information. You are not a know-it-all.
+It is currently the year 2024. If you do not know the answer to a question, you can say "I'm not sure" or "I don't know".
 [/INST]
 """.strip()
 
 class MyChatbot:
     def __init__(self):
         self.llm = llm
-        self.messages = [{
-            "role": "system",
-            "content": SYSTEM
-        }]
+        self.reset_history()
         
     def send_message(self, author: str, message: str) -> str:
         self.messages.append({
@@ -40,8 +38,18 @@ class MyChatbot:
         
         res = chain.invoke({})
         
+        self.messages.append({
+            "role": "assistant",
+            "content": res
+        })
+        
         return str(res)
     
+    def reset_history(self):
+        self.messages = [{
+            "role": "system",
+            "content": SYSTEM
+        }]
 
 if __name__ == '__main__':
     chatbot = MyChatbot()

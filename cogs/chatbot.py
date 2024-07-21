@@ -15,7 +15,14 @@ async def on_message(message: discord.Message):
 async def ask_command(interaction: discord.Interaction[discord.Client], query: str):
     """Ask the chatbot about anything!"""
     await interaction.response.send_message(chatbot.send_message(interaction.user.nick or interaction.user.name, query))
+    
+@app_commands.command(name="reset")
+async def reset_command(interaction: discord.Interaction[discord.Client]):
+    """Reset Chatbot History"""
+    chatbot.reset_history()
+    await interaction.response.send_message("Chatbot history has been reset.")
 
 def setup(app):
     app.tree.add_command(ask_command)
+    app.tree.add_command(reset_command)
     app.on_message = app.event(on_message)
