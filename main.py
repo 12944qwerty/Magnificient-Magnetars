@@ -4,6 +4,7 @@ import discord
 from cogs import bot
 from cogs import news
 from cogs import summarization
+from cogs import stocks
 from discord import app_commands
 from dotenv import load_dotenv
 
@@ -31,6 +32,7 @@ class MyApplication(discord.Client):
         await bot.setup(self)
         await news.setup(self)
         await summarization.setup(self)
+        await stocks.setup(self)
 
         self.tree.copy_global_to(guild=GUILD)
         await self.tree.sync(guild=GUILD)

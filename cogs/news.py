@@ -9,7 +9,7 @@ previous_search = ''
 news_view_page = 1
 
 
-def getNews(query, page):
+def getNews(query, page): # get the news and put sort them into 4 pages
     global previous_search
     global current_search
     previous_search = current_search
@@ -70,7 +70,7 @@ def getNews(query, page):
         raise ValueError('Invalid page')
 
 
-
+'''Dropdown to select topic below'''
 
 
 class NewsDropdown(discord.ui.Select):
@@ -131,6 +131,9 @@ class NewsDropdown(discord.ui.Select):
                 name=interaction.user.display_name,
                 icon_url=interaction.user.avatar
             ), view=NewsView())
+
+
+'''Buttons to change pages below'''
 
 
 class NewsView(discord.ui.View):
