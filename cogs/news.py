@@ -1,5 +1,3 @@
-from typing import Any
-
 import discord
 from discord import app_commands, Interaction
 import feedparser
@@ -9,7 +7,7 @@ previous_search = ''
 news_view_page = 1
 
 
-def getNews(query, page): # get the news and put sort them into 4 pages
+def getNews(query, page):  # get the news and put sort them into 4 pages
     global previous_search
     global current_search
     previous_search = current_search
