@@ -1,51 +1,79 @@
 import discord
 from discord import app_commands
-from enum import Enum
 
 
 FEEDS = {
     'google': 'https://news.google.com/rss/search?q={CATEGORY}&hl=en-US&gl=US&ceid=US:en',
     'yahoo': 'https://www.yahoo.com/news/rss/{CATEGORY}',
-    'w_post': 'https://feeds.washingtonpost.com/rss/{CATEGORY}',
+    'washington_post': 'https://feeds.washingtonpost.com/rss/{CATEGORY}',
 }
 
-class Category(Enum):
-    GOOGLE = ('World', 'Sports', 'Technology', 'Health', 'Politics', 'Science', 'Business')
-    YAHOO = ('world', 'sport', 'tech', 'health', 'politics', 'science', 'business')
-    W_POST = ('world', 'sports', 'business/technology', None, 'politics', None, 'business')
+CATEGORIES = {
+    'google': {
+        'world': 'World',
+        'sports': 'Sports',
+        'tech': 'Technology',
+        'health': 'Health',
+        'politics': 'Politics',
+        'science': 'Science',
+        'business': 'Business',
+    },
+    'yahoo': {
+        'world': 'world',
+        'sports': 'sport',
+        'tech': 'tech',
+        'health': 'health',
+        'politics': 'politics',
+        'science': 'science',
+        'business': 'business',
+    },
+    'washington_post': {
+        'world': 'world',
+        'sports': 'sports',
+        'tech': 'business/technology',
+        'health': None,
+        'politics': 'politics',
+        'science': None,
+        'business': 'business',
+    },
+}
 
-    def __init__(self, world, sports, tech, health, politics, science, business):
-        self.world = world
-        self.sports = sports
-        self.tech = tech
-        self.health = health
-        self.politics = politics
-        self.science = science
-        self.business = business
+class Subscription:
+    
+    def __init__(self):
+        self.feed = ''
+        self.category = ''
+        self.active_feed_url = ''
+
+    def sub_to(self, feed, category='world'):
+        self.feed = FEEDS[feed]
+        self.category = CATEGORIES[feed][category]
+        if self.category == None:
+            raise Error(f'Category "{category}" doesn\'t exist for feed "{feed}"')
+
+        self.active_feed_url = self.feed.format(CATEGORY=self.category)
+    
+    def swap_category(self, new_category):
+        self.category = CATEGORIES[self.feed][new_category]
+        if self.category == None:
+            raise Error(f'Category "{category}" doesn\'t exist for feed "{feed}"')
+        
+        self.active_feed_url = self.feed.format(CATEGORY=self.category)
 
 
-active_feed = ''
+subscription = Subscription()
 
 @app_commands.command()
 async def subscribe(interaction: discord.Interaction, query: str):
-    pass
+    if query in FEEDS.keys():
+        subscription.sub_to(query)
+        await interaction.response.send_message(f'Subscribed to "{query}"!')
+    else:
+        await interaction.response.send_message(f'Invalid subscription: "{query}"')
 
-def get_subscription_feed():
-    return active_feed
-
-def sub_to_google(requested_category):
-    category = getattr(Category.GOOGLE, requested_category)
-    return FEEDS['google'].format(CATEGORY=category)
-
-def sub_to_yahoo(requested_category):
-    category = getattr(Category.YAHOO, requested_category)
-    return FEEDS['yahoo'].format(CATEGORY=category)
-
-def sub_to_washington_post(requested_category):
-    category = getattr(Category.W_POST, requested_category)
-    return FEEDS['w_post'].format(CATEGORY=category)
-
+def get_subscription():
+    return subscription
 
 def setup(app):
-    active_feed = sub_to_google('world')
+    active_feed = sub_to('google', 'world')
     app.tree.add_command(subscribe)
