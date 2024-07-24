@@ -1,5 +1,5 @@
 import discord
-from discord import app_commands
+from discord import app_commands, Interaction
 
 
 FEEDS = {
@@ -64,16 +64,16 @@ class Subscription:
 subscription = Subscription()
 
 @app_commands.command()
-async def subscribe(interaction: discord.Interaction, query: str):
-    if query in FEEDS.keys():
-        subscription.sub_to(query)
-        await interaction.response.send_message(f'Subscribed to "{query}"!')
-    else:
+async def subscribe(interaction: discord.Interaction, service: str):
+    if query not in FEEDS.keys():
         await interaction.response.send_message(f'Invalid subscription: "{query}"')
+    
+    subscription.sub_to(query)
+    await interaction.response.send_message(f'Subscribed to "{query}"!')
 
 def get_subscription():
     return subscription
 
-def setup(app):
-    active_feed = sub_to('google', 'world')
+async def setup(app):
+    subscription.sub_to('google')
     app.tree.add_command(subscribe)
