@@ -59,17 +59,41 @@ class Subscription:
             raise Error(f'Category "{category}" doesn\'t exist for feed "{feed}"')
         
         self.active_feed_url = self.feed.format(CATEGORY=self.category)
-
+    
+    def __str__(self):
+        return f"""
+        Subscription: (
+            feed: {self.feed},
+            category: {self.category},
+            active_feed_url: {self.active_feed_url},
+        )
+        """
 
 subscription = Subscription()
 
 @app_commands.command()
 async def subscribe(interaction: discord.Interaction, service: str):
-    if query not in FEEDS.keys():
-        await interaction.response.send_message(f'Invalid subscription: "{query}"')
+    if service not in FEEDS.keys():
+        await interaction.response.send_message(f'Invalid subscription: "{service}"')
     
-    subscription.sub_to(query)
-    await interaction.response.send_message(f'Subscribed to "{query}"!')
+    subscription.sub_to(service)
+    await interaction.response.send_message(f'Subscribed to "{service}"!')
+
+@app_commands.command()
+async def subscription_info(interaction: discord.Interaction, query: str):
+    if query not in ['feed', 'category', 'url']:
+        message = 'Invalid query'
+    
+    if query == 'feed':
+        message = f'Feed: {subscription.feed}'
+    elif query == 'category':
+        message = f'Category: {subscription.category}'
+    elif query == 'url':
+        message = f'URL: {subscription.active_feed_url}'
+    elif query == 'all':
+        message = subscription
+
+    await interaction.response.send_message(message)
 
 def get_subscription():
     return subscription
@@ -77,3 +101,4 @@ def get_subscription():
 async def setup(app):
     subscription.sub_to('google')
     app.tree.add_command(subscribe)
+    app.tree.add_command(subscription_info)
