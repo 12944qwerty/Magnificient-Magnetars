@@ -1,15 +1,21 @@
 import discord
 from discord import app_commands, Interaction
 import feedparser
+from cogs import subscriptions
 
 current_search = ''
 previous_search = ''
 news_view_page = 1
 
+categories = ['World', 'Sports', 'Tech', 'Health', 'Science', 'Politics', 'Business']
+
 
 def getNews(query, page):  # get the news and put sort them into 4 pages
     global previous_search
     global current_search
+
+    modified_query = query.replace(' ', '+')
+
     previous_search = current_search
     em1 = discord.Embed(title=f'News articles on \"{query}\"')
     em2 = discord.Embed(title=f'News articles on \"{query}\"')
@@ -17,7 +23,12 @@ def getNews(query, page):  # get the news and put sort them into 4 pages
     em4 = discord.Embed(title=f'News articles on \"{query}\"')
     current_search = query
     # get the url of the search
-    rss_url = f'https://news.google.com/rss/search?q={query}&hl=en-US&gl=US&ceid=US:en'
+    rss_url = f'https://news.google.com/rss/search?q={modified_query}&hl=en-US&gl=US&ceid=US:en'
+
+    if query in categories:
+        subscriptions.subscription.sub_to(subscriptions.subscription.feed_name, query.lower())
+        rss_url = subscriptions.subscription.active_feed_url
+
 
     feed = feedparser.parse(rss_url)
 
@@ -75,12 +86,12 @@ class NewsDropdown(discord.ui.Select):
     def __init__(self):
         options = [
             discord.SelectOption(label='World', description='Get world news'),
-            discord.SelectOption(label='Sports', description='Get world news'),
-            discord.SelectOption(label='Technology', description='Get world news'),
-            discord.SelectOption(label='Health', description='Get world news'),
-            discord.SelectOption(label='Politics', description='Get world news'),
-            discord.SelectOption(label='Science', description='Get world news'),
-            discord.SelectOption(label='Business', description='Get world news')
+            discord.SelectOption(label='Sports', description='Get sports news'),
+            discord.SelectOption(label='Technology', description='Get tech news'),
+            discord.SelectOption(label='Health', description='Get health news'),
+            discord.SelectOption(label='Politics', description='Get political news'),
+            discord.SelectOption(label='Science', description='Get science news'),
+            discord.SelectOption(label='Business', description='Get business news')
         ]
         self.page = 1
         self.total_pages = 4
@@ -101,7 +112,7 @@ class NewsDropdown(discord.ui.Select):
             ), view=NewsView())
 
         if self.values[0] == 'Technology':
-            await interaction.response.send_message(embed=getNews('Technology', 1).set_author(
+            await interaction.response.send_message(embed=getNews('Tech', 1).set_author(
                 name=interaction.user.display_name,
                 icon_url=interaction.user.avatar
             ), view=NewsView())

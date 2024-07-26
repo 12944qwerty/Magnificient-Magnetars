@@ -38,25 +38,28 @@ CATEGORIES = {
     },
 }
 
+
 class Subscription:
     
     def __init__(self):
         self.feed = ''
+        self.feed_name = 'google'
         self.category = ''
         self.active_feed_url = ''
 
     def sub_to(self, feed, category='world'):
+        self.feed_name = feed
         self.feed = FEEDS[feed]
         self.category = CATEGORIES[feed][category]
         if self.category == None:
-            raise Error(f'Category "{category}" doesn\'t exist for feed "{feed}"')
+            raise ValueError(f'Category "{category}" doesn\'t exist for feed "{feed}"')
 
         self.active_feed_url = self.feed.format(CATEGORY=self.category)
     
     def swap_category(self, new_category):
         self.category = CATEGORIES[self.feed][new_category]
         if self.category == None:
-            raise Error(f'Category "{category}" doesn\'t exist for feed "{feed}"')
+            raise ValueError(f'Category "{category}" doesn\'t exist for feed "{feed}"')
         
         self.active_feed_url = self.feed.format(CATEGORY=self.category)
     
@@ -69,15 +72,21 @@ class Subscription:
         )
         """
 
+
 subscription = Subscription()
 
+@app_commands.choices(service=[
+    discord.app_commands.Choice(name='Google news', value='google'),
+    discord.app_commands.Choice(name='Yahoo', value='yahoo'),
+    discord.app_commands.Choice(name='Washington post', value='washington_post'),
+])
 @app_commands.command()
-async def subscribe(interaction: discord.Interaction, service: str):
-    if service not in FEEDS.keys():
+async def subscribe(interaction: discord.Interaction, service: discord.app_commands.Choice[str]):
+    if service.value not in FEEDS.keys():
         await interaction.response.send_message(f'Invalid subscription: "{service}"')
     
-    subscription.sub_to(service)
-    await interaction.response.send_message(f'Subscribed to "{service}"!')
+    subscription.sub_to(service.value)
+    await interaction.response.send_message(f'Subscribed to "{service.name}"!')
 
 @app_commands.command()
 async def subscription_info(interaction: discord.Interaction, query: str):
@@ -95,8 +104,10 @@ async def subscription_info(interaction: discord.Interaction, query: str):
 
     await interaction.response.send_message(message)
 
+
 def get_subscription():
     return subscription
+
 
 async def setup(app):
     subscription.sub_to('google')
