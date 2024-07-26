@@ -1,0 +1,16 @@
+services:
+  python:
+    container_name: magnificent_magnetars
+    image: python:3.12
+    working_dir: /app
+    volumes:
+      - .:/app
+      - dependencies:/usr/local/lib/python3.12/site-packages
+    ports:
+      - 9000:9000
+    env_file:
+      - .env
+    restart: always
+    command: "bash init.sh"
+volumes:
+  dependencies: {}
