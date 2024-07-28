@@ -1,7 +1,7 @@
 import os
 
 import discord
-from cogs import bot
+from cogs import bot, chatbot
 from discord import app_commands
 from dotenv import load_dotenv
 
@@ -26,7 +26,8 @@ class MyApplication(discord.Client):
 
     async def setup_hook(self) -> None:
         """Event that fires pretty much before all other events."""
-        await bot.setup(self)
+        bot.setup(self)
+        chatbot.setup(self)
 
         self.tree.copy_global_to(guild=GUILD)
         await self.tree.sync(guild=GUILD)
