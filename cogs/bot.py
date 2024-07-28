@@ -25,6 +25,6 @@ async def ping(interaction: discord.Interaction[discord.Client]):
     await interaction.response.send_message(embed=em)
 
 
-def setup(app):
+async def setup(app):
     app.tree.add_command(info)
     app.tree.add_command(ping)

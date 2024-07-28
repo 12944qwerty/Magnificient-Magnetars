@@ -22,7 +22,7 @@ async def reset_command(interaction: discord.Interaction[discord.Client]):
     chatbot.reset_history()
     await interaction.response.send_message("Chatbot history has been reset.")
 
-def setup(app):
+async def setup(app):
     app.tree.add_command(ask_command)
     app.tree.add_command(reset_command)
     app.on_message = app.event(on_message)
