@@ -11,13 +11,19 @@ cfgv==3.4.0
 chardet==5.2.0
 charset-normalizer==3.3.2
 click==8.1.7
+contourpy==1.2.1
+cycler==0.12.1
 dataclasses-json==0.6.7
 discord.py==2.4.0
 distlib==0.3.8
 docopt==0.6.2
+feedparser==6.0.11
 filelock==3.15.4
+fonttools==4.53.1
+frozendict==2.4.4
 frozenlist==1.4.1
 fsspec==2024.6.1
+html5lib==1.1
 huggingface-hub==0.24.0
 identify==2.6.0
 idna==3.7
@@ -25,6 +31,7 @@ Jinja2==3.1.4
 joblib==1.4.2
 jsonpatch==1.33
 jsonpointer==3.0.0
+kiwisolver==1.4.5
 langchain==0.2.10
 langchain-community==0.2.9
 langchain-core==0.2.22
@@ -34,8 +41,10 @@ langsmith==0.1.93
 lxml==5.2.2
 MarkupSafe==2.1.5
 marshmallow==3.21.3
+matplotlib==3.9.1
 mpmath==1.3.0
 multidict==6.0.5
+multitasking==0.0.11
 mypy-extensions==1.0.0
 networkx==3.3
 nltk==3.8.1
@@ -43,6 +52,8 @@ nodeenv==1.9.1
 numpy==1.26.4
 orjson==3.10.6
 packaging==24.1
+pandas==2.2.2
+peewee==3.17.6
 pillow==10.4.0
 platformdirs==4.2.2
 pre-commit==3.7.1
@@ -51,7 +62,10 @@ psutil==6.0.0
 pycountry==24.6.1
 pydantic==2.8.2
 pydantic_core==2.20.1
+pyparsing==3.1.2
+python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
+pytz==2024.1
 PyYAML==6.0.1
 regex==2024.5.15
 requests==2.32.3
@@ -61,6 +75,8 @@ scikit-learn==1.5.1
 scipy==1.14.0
 sentence-transformers==3.0.1
 sentencepiece==0.2.0
+sgmllib3k==1.0.0
+six==1.16.0
 soupsieve==2.5
 SQLAlchemy==2.0.31
 sumy==0.11.0
@@ -73,6 +89,9 @@ tqdm==4.66.4
 transformers @ git+https://github.com/huggingface/transformers.git@0fdea8607d7e01eb0e38a1ebeb7feee30a22f0cf
 typing-inspect==0.9.0
 typing_extensions==4.12.2
+tzdata==2024.1
 urllib3==2.2.2
 virtualenv==20.26.3
+webencodings==0.5.1
 yarl==1.9.4
+yfinance==0.2.41
