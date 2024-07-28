@@ -1,7 +1,7 @@
 import os
 
 import discord
-from cogs import bot, news, summarization, stocks, subscriptions, chatbot
+from cogs import settings, bot, news, summarization, stocks, subscriptions, chatbot
 from discord import app_commands
 from dotenv import load_dotenv
 
@@ -26,6 +26,7 @@ class MyApplication(discord.Client):
 
     async def setup_hook(self) -> None:
         """Event that fires pretty much before all other events."""
+        await settings.setup(self)
         await bot.setup(self)
         await news.setup(self)
         await summarization.setup(self)

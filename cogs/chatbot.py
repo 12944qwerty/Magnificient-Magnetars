@@ -1,15 +1,26 @@
 import discord
 from discord import app_commands
 from .utils import chatbot
+from .settings import getvalue
 
 chatbot = chatbot.MyChatbot()
 
-async def on_message(message: discord.Message):
-    if message.author.bot or message.channel.id != 1263602469829611521:
-        return
-    
-    async with message.channel.typing():
-        await message.reply(chatbot.send_message(message.author.nick or message.author.name, message.content), mention_author=False)
+async def is_chatbot_channel(client, guild_id, channel_id):
+    activated_channels = await getvalue(client, guild_id, "activated_channels")
+    if activated_channels:
+        activated_channels = activated_channels.split(",")
+    else:
+        activated_channels = []
+    return str(channel_id) in activated_channels
+
+def get_on_message_event(client):
+    async def on_message(message: discord.Message):
+        if message.author.bot or not await is_chatbot_channel(client, message.guild.id, message.channel.id):
+            return
+        
+        async with message.channel.typing():
+            await message.reply(chatbot.send_message(message.author.nick or message.author.name, message.content), mention_author=False)
+    return on_message
 
 @app_commands.command(name="ask")
 async def ask_command(interaction: discord.Interaction[discord.Client], query: str):
@@ -25,4 +36,4 @@ async def reset_command(interaction: discord.Interaction[discord.Client]):
 async def setup(app):
     app.tree.add_command(ask_command)
     app.tree.add_command(reset_command)
-    app.on_message = app.event(on_message)
+    app.on_message = app.event(get_on_message_event(app))
