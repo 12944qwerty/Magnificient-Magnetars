@@ -3,6 +3,16 @@
 ## Information Overload
 As the theme of this codejam, we decided to make a discord bot that can provide information on a variety of topics. You can talk with a chatbot or ask for stock information and news articles and summaries. However, in order to overload you, the bot will give you a lot of information at once. You're given way more news articles than you need. More stock information than you need. And the chatbot is constantly talking. It's up to you to sift through the information and find what you need.
 
+## Running the Bot
+1. Clone the repository
+2. Install the required packages with `pip install -r requirements-dev.txt` in a virtual env of your choice.
+3. Create a `.env` file in the root directory with the following contents. An `.env.example` file is provided for you to copy.
+4. Create a discord bot and get the token from the discord developer portal.
+5. Create a hugging face account and get an [API key](https://huggingface.co/settings/tokens).
+   - API Key must have read access to content of all public gated repos. And making calls to serverless inference API.
+   - You also need to agree to using the model. You can do this by going to the [model's page](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) and clicking the "agree" button.
+6. Run the bot with `python main.py`
+
 ## Chatbot
 Using [Mistralai's 7B Instruct model](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3), this chatbot is able to provide information on a variety of topics. It can answer questions, provide summaries, and even have a conversation with you. It's a great way to get information on a topic you're interested in.
 We told the chatbot that it should always be providing information in such a way that it overload's the user. It gives fun facts often as well.
