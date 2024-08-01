@@ -16,7 +16,7 @@ This command displays the current value of a stock, a visual representation of t
 ![A picture of the stocks command for Apple from year to date](assets/stocks_aapl_ytd.png)
 
 ## News Articles & Summaries
-Using ![Yahoo! Finance's API](https://pypi.org/project/yfinance/) The bot can provide news articles and summaries on a variety of topics. It will give you a lot of articles and summaries at once, so you'll have to sift through them to find what you need. It's a great way to get a lot of information on a topic quickly.
+Using [Yahoo! Finance's API](https://pypi.org/project/yfinance/) The bot can provide news articles and summaries on a variety of topics. It will give you a lot of articles and summaries at once, so you'll have to sift through them to find what you need. It's a great way to get a lot of information on a topic quickly.
 ![A picture of the news command](assets/news.png)
 ![A picture of the summarize command](assets/summarize.png)
 
