@@ -25,8 +25,17 @@ Currently there is only one setting for the bot. Adding and removing channels th
 The settings are stored by guild in an SQL DB.
 ![example of settings](assets/settings.png)
 
+## Subscriptions
+
+Subscription command changes the source that the news command pulls articles from. Goal was to make subscriptions change news source between Google News, Yahoo News, and Washington Post.
+Due to limitations in the RSS service provided by Yahoo News and Washington Post, the news command will only pull articles by the subscribed to service when searching by category, otherwise
+it defaults to Google News. Washington Post was also omitted from final build since that RSS service wasn't playing nice with the current news code.
+
 ## Participants
 King Fish - Created the chatbot feature.
+
 Ununennium - Created the news, summarize, and stock commands
+
 Jerry - Created the subscription feature
+
 ilcheese2 - Created the settings feature
